@@ -385,6 +385,14 @@
 868,    SilkGloves,                     Silk Gloves,                        5,      5000,       2500,       4,          ,       1,      ,       0,      0,      2,      4,          ,       0,      0,      {},                                                                     {}
 869,    Antlers,                        Antlers,                            3,      4000,       2000,       3000,       ,       ,       ,       ,       ,       ,       ,           ,       ,       ,       {},                                                                     {}
 870,    FineDress,                      Fine Dress,                         5,      10000,      5000,       35,         ,       8,      ,       3,      0,      2,      512,        ,       0,      0,      {},                                                                     {}
+871,    SnakeskinHelmet,                Snakeskin Helmet,                   5,      1900,       475,        75,         ,       10,     ,       -10,    0,      2,      256,        ,       1,      0,      {},                                                                     {}
+872,    SnakeskinMask,                  Snakeskin Mask,                     5,      1500,       375,        45,         ,       6,      ,       -12,    0,      2,      256,        ,       1,      0,      {},                                                                     {}
+873,    SnakeskinShield,                Snakeskin Shield,                   5,      10000,      2000,       550,        ,       16,     ,       -60,    0,      2,      32,         ,       ,       0,      {},                                                                     {}
+874,    SnakeskinPants,                 Snakeskin Pants,                    5,      2000,       1000,       35,         ,       5,      ,       -25,    0,      2,      1,          ,       0,      0,      {},                                                                     {}
+875,    SnakeskinGloves,                Snakeskin Gloves,                   5,      6000,       2000,       25,         ,       5,      ,       -5,     0,      2,      4,          ,       0,      0,      {},                                                                     {}
+876,    SnakeskinBoots,                 Snakeskin Boots,                    5,      5000,        600,       30,         ,       5,      ,       -5,     0,      2,      64,         ,       0,      0,      {},                                                                     {}
+877,    SnakeskinPlate,                 Snakeskin Plate,                    5,      10000,      3000,       655,        ,       22,     ,       -40,    0,      2,      512,        ,       0,      0,      {},                                                                     {}
+//878,    ThreeHeads,                     Three Heads,
 
 // Add new entries above here. For dyed entries,add to the bottom of the 2000s.
 
