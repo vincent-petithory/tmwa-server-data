@@ -568,6 +568,7 @@ SPELL lay-on-hands (target : STRING) : "#L10" =
                                 && (rdistance(location(caster), location(pc(target)))
                                     < 2 + (12 * sqrt(spellpower) + spellpower) / 100)
                                 && not (running_status_update(pc(target), SC_HALT_REGENERATE))
+                                && not (is_equipped(target, "MagicGMTopHat"))
                               ))
           => EFFECT CALL adjust_spellpower(school);
 		    IF (not (target)) THEN ABORT;
@@ -1717,4 +1718,13 @@ TELEPORT-ANCHOR dimondscove : "##05" = @("010-2.gat", 23, 79) @+ (3, 3);
 NONMAGIC SPELL illia0 : "#catalazuli" = REQUIRE ((rdistance(location(caster), location(npc("#Power Circle"))) == 0))
                                                 => EFFECT {
                                                     callfunc "StartChannelling";
+                                                };
+
+#--------------------------------------------------------------------------------
+# Kill the GM event spell
+#--------------------------------------------------------------------------------
+
+NONMAGIC SPELL killgm0 : "#pullrabbit" = REQUIRE (is_equipped(caster, "MagicGMTopHat"))
+                                                => EFFECT {
+                                                    callfunc "ActivateMagicGMTophat";
                                                 };
