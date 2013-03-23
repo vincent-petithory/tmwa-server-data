@@ -36,6 +36,7 @@ L_StartFight:
     set $@FIGHT_CAVE_STATUS, 1;
     set $@FIGHT_CAVE_LEVEL, 1;
     set $@FIGHT_CAVE_PLAYER_COUNT, getmapusers("029-3.gat");
+    areatimer "029-3.gat", 20, 20, 70, 60, 10, "Parua::onPlayerStart";
     startnpctimer;
     goto L_Exit;
 
@@ -131,6 +132,8 @@ L_Exit:
 // Fight logic
 OnTimer5000:
     setnpctimer 0;
+    if ($@FIGHT_CAVE_STATUS == 0)
+        goto L_FinalCleanUp;
     if ($@FIGHT_CAVE_STATUS == 1)
         goto L_CaveLogic;
     if ($@FIGHT_CAVE_STATUS >= 2)
@@ -278,15 +281,24 @@ onInit:
 
 L_CleanUp:
     npctalk "Game Over";
+    set $@CANDOR_TOTAL_EXP, 0;
+    set $@CANDOR_ALIVE_PLAYERS_COUNT, 0;
     mapannounce "029-1.gat", "Parua: The dungeon is now ready for its next victims.", 0;
-    areatimer "029-3.gat", 20, 20, 70, 60, 10, "Parua::onReward";
+    areatimer "029-3.gat", 20, 20, 70, 60, 10, "Parua::onSumExp";
+    areatimer "029-3.gat", 20, 20, 70, 60, 1500, "Parua::onReward";
     set $@FIGHT_CAVE_STATUS, 0;
     set $@FIGHT_CAVE_PLAYER_COUNT, 0;
     set $@FIGHT_CAVE_LEVEL, 1;
     set $@FIGHT_CAVE_ROUND_TIMER, 0;
     killmonster "029-3.gat", "Parua::onPetDeath";
+    setnpctimer 0;
+    end;
+
+L_FinalCleanUp:
     stopnpctimer;
     setnpctimer 0;
+    set $@CANDOR_TOTAL_EXP, 0;
+    set $@CANDOR_ALIVE_PLAYERS_COUNT, 0;
     end;
 
 L_CleanUp_Announcement:
@@ -294,14 +306,28 @@ L_CleanUp_Announcement:
     set $@SPONSOR$, "";
     set $@ANNOUNCE_TIME, 0;
     set $@FIGHT_CAVE_STATUS, 0;
+    set $@CANDOR_TOTAL_EXP, 0;
     stopnpctimer;
     setnpctimer 0;
     end;
 
+onSumExp:
+    if (isdead()) end;
+    set $@CANDOR_TOTAL_EXP, $@CANDOR_TOTAL_EXP + BaseExp - @candor_initial_exp;
+    set $@CANDOR_ALIVE_PLAYERS_COUNT, $@CANDOR_ALIVE_PLAYERS_COUNT + 1;
+    end;
+
 onReward:
     if (isdead()) end;
-    set BOSS_POINTS, BOSS_POINTS + 100;
-    message strcharinfo(0), "You gain 100 Boss Points giving you a total of " + BOSS_POINTS;
+    set @candor_bp, ($@CANDOR_ALIVE_PLAYERS_COUNT * 100 * ((BaseExp - @candor_initial_exp) * 14 / 20 + ($@CANDOR_TOTAL_EXP / $@CANDOR_ALIVE_PLAYERS_COUNT) * 6 / 20)) / $@CANDOR_TOTAL_EXP;
+    set BOSS_POINTS, BOSS_POINTS + @candor_bp;
+    message strcharinfo(0), "You gain " + @candor_bp + " Boss Points giving you a total of " + BOSS_POINTS;
+    set @candor_initial_exp, 0;
+    set @candor_bp, 0;
+    end;
+
+onPlayerStart:
+    set @candor_initial_exp, BaseExp;
     end;
 
 }
