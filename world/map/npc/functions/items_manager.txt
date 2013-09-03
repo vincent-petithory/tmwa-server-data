@@ -1,0 +1,27 @@
+// ------------------------------------------------------------
+// Variables:
+//  @slotId   The slot in which the item has to be unequipped.
+// ------------------------------------------------------------
+function|script|CancelItemEquip|,
+{
+    if (@unequip_slot == @slotId)
+        return;
+    set @unequip_slot, @slotId;
+    if (@unequip_slot_msg$ != "")
+        message strcharinfo(0), @unequip_slot_msg$;
+    set @unequip_slot_msg$, "";
+    addtimer 0, "#ItemsManager::OnUnequipSlot";
+    return;
+}
+
+-|script|#ItemsManager|127,
+{
+end;
+
+OnUnequipSlot:
+    if (@unequip_slot == 0)
+        end;
+    unequipbyid @unequip_slot;
+    set @unequip_slot, 0;
+    end;
+}
